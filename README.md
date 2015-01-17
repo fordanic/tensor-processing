@@ -27,9 +27,11 @@ the GNU GENERAL PUBLIC LICENSE Version 3, if not otherwise stated.
 This repository contains functionality for computing structure tensors
 both from 2D and 3D data. Quadrature filters and monomials needed to 
 do this are provided in the repository, as is functions showing how
-to optimize your own quadrature filters. Note that this requires
-access to the kerngen toolbox, available at:
+to optimize your own quadrature filters. Note that to optimize your
+own filters access to the kerngen toolbox, available at:
 https://www.imt.liu.se/edu/courses/TBMI02/code/kerngen.zip
+is needed. The kerngen toolbox is also useful for visualization of 
+structure tensors based upon 2D data using the GOP coloring scheme.
 
 # Setup
 
