@@ -45,6 +45,12 @@ scales = {'coarse','intermediate','fine'};
 
 %%
 
+if ~exist('F_weightgensnr.m','file') || ~exist('goodsw.m','file') || ...
+        ~exist('bplognorm.m','file') || ~exist('krnopt.m','file')
+    error(['You appear to be missing vital functions for optimizing filters. ',...
+        'Please download: https://www.imt.liu.se/edu/courses/TBMI02/code/kerngen.zip'])
+end
+
 for k = 1 : length(scales)
     scale = scales{k};
     
