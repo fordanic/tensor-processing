@@ -23,6 +23,12 @@ function [t11, t12, t13, t22, t23, t33] = compute_structure_tensor3d(input, vara
 % t22                       - Tensor element 2,2
 % t23                       - Tensor element 2,3
 % t33                       - Tensor element 3,3
+%
+% Please see "Representing local structure using tensors" by H Knutsson
+% and "Representing local structure using tensors II" by H Knutsson et al.
+% for theory behind structure tensors and the use of quadrature and/or
+% monomials for computing them. The theory is also discussed extensively in
+% "Signal processing for computer vision" by G Granlund and H Knutsson.
 
 % Copyright (c) 2012 Daniel Forsberg
 % danne.forsberg@outlook.com
@@ -68,7 +74,13 @@ if strcmp(mode,'quadrature')
     load quadratureFiltersForStructureTensor3D
     
     % Select filters
-    eval(['qFilt = ',scale,'.f']);
+    eval(['qFilt = ',scale,'.f;']);
+    eval(['m11 = ',scale,'.m11;']);
+    eval(['m12 = ',scale,'.m12;']);
+    eval(['m13 = ',scale,'.m13;']);
+    eval(['m22 = ',scale,'.m22;']);
+    eval(['m23 = ',scale,'.m23;']);
+    eval(['m33 = ',scale,'.m33;']);
     
     for k = 1 : 6
         if ~isempty(USE_CUDA) && USE_CUDA
@@ -92,8 +104,8 @@ elseif strcmp(mode,'monomials')
     load monomialsForStructureTensor3D
     
     % Select filters
-    eval(['mFilt1 = ',scale,'.f1']);
-    eval(['mFilt2 = ',scale,'.f2']);
+    eval(['mFilt1 = ',scale,'.f1;']);
+    eval(['mFilt2 = ',scale,'.f2;']);
     
     if ~isempty(USE_CUDA) && USE_CUDA
         for k = 1 : length(f1)

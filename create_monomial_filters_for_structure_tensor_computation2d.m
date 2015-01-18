@@ -19,7 +19,7 @@ function create_monomial_filters_for_structure_tensor_computation2d()
 % See "Advanced filter design" by Knutsson et al for detailed explanation
 % of the parameters used.
 %
-% See also F_weightgensnr, goodsw, quadrature, krnopt
+% See also F_weightgensnr, goodsw, bplognorm, krnopt
 
 % Copyright (c) 2012 Daniel Forsberg
 % danne.forsberg@outlook.com

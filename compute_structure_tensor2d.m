@@ -20,6 +20,12 @@ function [t11, t12, t22] = compute_structure_tensor2d(input, varargin)
 % t11                       - Tensor element 1,1
 % t12                       - Tensor element 1,2
 % t22                       - Tensor element 2,2
+%
+% Please see "Representing local structure using tensors" by H Knutsson
+% and "Representing local structure using tensors II" by H Knutsson et al.
+% for theory behind structure tensors and the use of quadrature and/or
+% monomials for computing them. The theory is also discussed extensively in
+% "Signal processing for computer vision" by G Granlund and H Knutsson.
 
 % Copyright (c) 2012 Daniel Forsberg
 % danne.forsberg@outlook.com
@@ -61,7 +67,10 @@ if strcmp(mode,'quadrature')
     load quadratureFiltersForStructureTensor2D
     
     % Select filters
-    eval(['qFilt = ',scale,'.f']);
+    eval(['qFilt = ',scale,'.f;']);
+    eval(['m11 = ',scale,'.m11;']);
+    eval(['m12 = ',scale,'.m12;']);
+    eval(['m22 = ',scale,'.m22;']);
     
     for k = 1 : 4
         q = imfilter(input,qFilt{k},'conv','same','replicate');
@@ -77,8 +86,8 @@ elseif strcmp(mode,'monomials')
     load monomialsForStructureTensor2D
     
     % Select filters
-    eval(['mFilt1 = ',scale,'.f1']);
-    eval(['mFilt2 = ',scale,'.f2']);
+    eval(['mFilt1 = ',scale,'.f1;']);
+    eval(['mFilt2 = ',scale,'.f2;']);
     
     for k = 1 : length(f1)
         q1{k} = imfilter(input,mFilt1{k},'conv','same','replicate');
