@@ -2,25 +2,10 @@
 
 A MATLAB library for computing and processing structure tensors
 
-# Copyright and licensing
+# Copyright
 
 Copyright (c) 2015 Daniel Forsberg
 danne.forsberg@outlook.com
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-Source code provided in this repository is generally released under 
-the GNU GENERAL PUBLIC LICENSE Version 3, if not otherwise stated.
 
 # About
 
@@ -51,6 +36,22 @@ matlab-utilities repository.
 
 # Adding m-files
 
-To create a suitable file header for M-files, use the function 
-create_new_m_function to create new M-files, available in the
-matlab-utilities repository.
+To create a suitable file header for new M-files, use the function 
+create_new_m_function, available in the matlab-utilities repository.
+
+# Licensing
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Source code provided in this repository is generally released under 
+the GNU GENERAL PUBLIC LICENSE Version 3, if not otherwise stated.
