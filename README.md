@@ -23,7 +23,8 @@ structure tensors based upon 2D data using the GOP coloring scheme.
 To use the code available in this repository, add the following 
 lines to your startup.m file.
 
-addpath('<your path to where you keep the repository>')
+addpath('path-to-this-repository')
+
 setup_tensor_processing_repository()
 
 Note that this library is dependent on my matlab-utilities repository,
