@@ -23,10 +23,13 @@ structure tensors based upon 2D data using the GOP coloring scheme.
 To use the code available in this repository, add the following 
 lines to your startup.m file.
 
-addpath_recurse('<your path to where you keep the repository>')
+addpath('<your path to where you keep the repository>')
+setup_tensor_processing_repository()
 
 Note that this library is dependent on my matlab-utilities repository,
-available from https://github.com/fordanic/matlab-utilities.
+available from https://github.com/fordanic/matlab-utilities. If this 
+repository is not available on the path then needed files can be downloaded
+during setup of repository.
 
 # Coding standard
 
