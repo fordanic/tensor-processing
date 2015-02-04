@@ -64,6 +64,19 @@ t22 = zeros(size(input));
 
 if strcmp(mode,'quadrature')
     % Load filters
+    if ~exist('quadratureFiltersForStructureTensor2D.mat','file')
+        disp('Quadrature filters needed for compute_structure_tensor2d are not available.')
+        answer = input('Would you like to download these filters? [y]/[n] ','s');
+        if strcmpi(answer,'y') || strcmpi(answer,'yes')
+            folder = fileparts(mfilename('fullpath'));
+            currentFolder = pwd;
+            cd(folder)
+            urlwrite(...
+                'https://github.com/fordanic/tensor-processing/blob/master/quadratureFiltersForStructureTensor2D.mat',...
+                'quadratureFiltersForStructureTensor2D.mat')
+            cd(currentFolder)
+        end
+    end
     load quadratureFiltersForStructureTensor2D
     
     % Select filters
@@ -83,6 +96,19 @@ if strcmp(mode,'quadrature')
     end
 elseif strcmp(mode,'monomials')
     % Load filters
+    if ~exist('monomialsForStructureTensor2D.mat','file')
+        disp('Monomial filters needed for compute_structure_tensor2d are not available.')
+        answer = input('Would you like to download these filters? [y]/[n] ','s');
+        if strcmpi(answer,'y') || strcmpi(answer,'yes')
+            folder = fileparts(mfilename('fullpath'));
+            currentFolder = pwd;
+            cd(folder)
+            urlwrite(...
+                'https://github.com/fordanic/tensor-processing/blob/master/monomialsForStructureTensor2D.mat',...
+                'monomialsForStructureTensor2D.mat')
+            cd(currentFolder)
+        end
+    end
     load monomialsForStructureTensor2D
     
     % Select filters

@@ -16,6 +16,7 @@ function [t11, t12, t13, t22, t23, t33] = compute_structure_tensor3d(input, vara
 %                             domain (1.0)
 % 'normalize'               - Set to true to normalize the estimated tensor (false)
 % 'mode'                    - 'quadrature'/'monomials'
+%
 % OUTPUT ARGUMENTS
 % t11                       - Tensor element 1,1
 % t12                       - Tensor element 1,2
@@ -59,8 +60,6 @@ for k=1:2:length(varargin)
     eval([varargin{k},'=varargin{',int2str(k+1),'};']);
 end;
 
-global USE_CUDA;
-
 % Initialize tensor elements
 t11 = zeros(size(input));
 t12 = zeros(size(input));
@@ -71,6 +70,19 @@ t33 = zeros(size(input));
 
 if strcmp(mode,'quadrature')
     % Load filters
+    if ~exist('quadratureFiltersForStructureTensor3D.mat','file')
+        disp('Quadrature filters needed for compute_structure_tensor3d are not available.')
+        answer = input('Would you like to download these filters? [y]/[n] ','s');
+        if strcmpi(answer,'y') || strcmpi(answer,'yes')
+            folder = fileparts(mfilename('fullpath'));
+            currentFolder = pwd;
+            cd(folder)
+            urlwrite(...
+                'https://github.com/fordanic/tensor-processing/blob/master/quadratureFiltersForStructureTensor3D.mat',...
+                'quadratureFiltersForStructureTensor3D.mat')
+            cd(currentFolder)
+        end
+    end
     load quadratureFiltersForStructureTensor3D
     
     % Select filters
@@ -83,12 +95,7 @@ if strcmp(mode,'quadrature')
     eval(['m33 = ',scale,'.m33;']);
     
     for k = 1 : 6
-        if ~isempty(USE_CUDA) && USE_CUDA
-            q = CUDA_convolution3d(input,real(qFilt{k}),'edge_extraction');
-            q = q + 1i*CUDA_convolution3d(input,imag(qFilt{k}),'edge_extraction');
-        else
-            q = imfilter(input,qFilt{k},'conv','same','replicate');
-        end
+        q = imfilter(input,qFilt{k},'conv','same','replicate');
         
         % Estimate T
         Aq = abs(q);
@@ -101,26 +108,30 @@ if strcmp(mode,'quadrature')
     end
 elseif strcmp(mode,'monomials')
     % Load filters
+    if ~exist('monomialsForStructureTensor3D.mat','file')
+        disp('Monomial filters needed for compute_structure_tensor3d are not available.')
+        answer = input('Would you like to download these filters? [y]/[n] ','s');
+        if strcmpi(answer,'y') || strcmpi(answer,'yes')
+            folder = fileparts(mfilename('fullpath'));
+            currentFolder = pwd;
+            cd(folder)
+            urlwrite(...
+                'https://github.com/fordanic/tensor-processing/blob/master/monomialsForStructureTensor3D.mat',...
+                'monomialsForStructureTensor3D.mat')
+            cd(currentFolder)
+        end
+    end
     load monomialsForStructureTensor3D
     
     % Select filters
     eval(['mFilt1 = ',scale,'.f1;']);
     eval(['mFilt2 = ',scale,'.f2;']);
     
-    if ~isempty(USE_CUDA) && USE_CUDA
-        for k = 1 : length(f1)
-            q1{k} = CUDA_convolution3d(input,mFilt1{k},'edge_extraction');
-        end
-        for k = 1 : length(f2)
-            q2{k} = CUDA_convolution3d(input,mFilt2{k},'edge_extraction');
-        end
-    else
-        for k = 1 : length(f1)
-            q1{k} = imfilter(input,mFilt1{k},'conv','same','replicate');
-        end
-        for k = 1 : length(f2)
-            q2{k} = imfilter(input,mFilt2{k},'conv','same','replicate');
-        end
+    for k = 1 : length(f1)
+        q1{k} = imfilter(input,mFilt1{k},'conv','same','replicate');
+    end
+    for k = 1 : length(f2)
+        q2{k} = imfilter(input,mFilt2{k},'conv','same','replicate');
     end
     
     t11  = q1{1}.*q1{1};
@@ -162,21 +173,12 @@ end
 if average
     Tcert = sqrt(t11.^2 + 2*t12.^2 + 2*t13.^2 + t22.^2 + 2*t23.^2 + t33.^2);
     
-    if ~isempty(USE_CUDA) && USE_CUDA
-        t11 = CUDA_normalized_averaging3d_separable(t11, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-        t12 = CUDA_normalized_averaging3d_separable(t12, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-        t13 = CUDA_normalized_averaging3d_separable(t13, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-        t22 = CUDA_normalized_averaging3d_separable(t22, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-        t23 = CUDA_normalized_averaging3d_separable(t23, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-        t33 = CUDA_normalized_averaging3d_separable(t33, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-    else
-        t11 = averaging3d(t11, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-        t12 = averaging3d(t12, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-        t13 = averaging3d(t13, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-        t22 = averaging3d(t22, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-        t23 = averaging3d(t23, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-        t33 = averaging3d(t33, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
-    end
+    t11 = averaging3d(t11, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
+    t12 = averaging3d(t12, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
+    t13 = averaging3d(t13, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
+    t22 = averaging3d(t22, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
+    t23 = averaging3d(t23, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
+    t33 = averaging3d(t33, Tcert, sizeAveragingFilter, sigmaAveragingFilter);
 end
 
 if normalize
