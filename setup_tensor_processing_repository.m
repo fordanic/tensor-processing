@@ -2,6 +2,15 @@ function setup_tensor_processing_repository()
 % SETUP_TENSOR_PROCESSING_REPOSITORY Call this function to setup this repository
 %
 % setup_tensor_processing_repository
+%
+% INPUT ARGUEMNTS
+% N/A
+%
+% OPTIONAL INPUT ARGUEMNTS
+% N/A
+%
+% OUTPUT ARGUEMNTS
+% N/A
 
 % Copyright (c) 2015 Daniel Forsberg
 % danne.forsberg@outlook.com
@@ -47,7 +56,6 @@ if ~isempty(missingExternalDependencies)
     if strcmp(lower(answer),'y') || strcmp(lower(answer),'yes')
         if ~exist([folder,filesep,'external-dependencies'],'dir')
             mkdir('external-dependencies')
-            cd('external-dependencies')
         end
         cd('external-dependencies')
         for k = 1 : length(missingExternalDependencies)
