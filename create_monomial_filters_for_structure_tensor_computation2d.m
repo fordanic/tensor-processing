@@ -145,13 +145,13 @@ for k = 1 : length(scales)
     Fi0 = bplognorm(frequencySize, u0, B, spacing);
     
     % Order 1
-    Fi1{1} = Fi0.*Yh;
-    Fi1{2} = Fi0.*Xh;
+    Fi1{1} = Fi0.*Xh;
+    Fi1{2} = Fi0.*Yh;
     
     % Order 2
-    Fi2{1}  = Fi0.*Yh.*Yh;
-    Fi2{2}  = Fi0.*Yh.*Xh;
-    Fi2{3}  = Fi0.*Xh.*Xh;
+    Fi2{1}  = Fi0.*Xh.*Xh;
+    Fi2{2}  = Fi0.*Xh.*Yh;
+    Fi2{3}  = Fi0.*Yh.*Yh;
     
     % Order 0
     fprintf('Order 0------------------------------ \n')
@@ -177,7 +177,7 @@ for k = 1 : length(scales)
     end
     fprintf('\n\n')
     
-    f0 = getdata(f0);
+    f0 = real(getdata(f0));
     for k = 1: length(Fi1)
         f1{k} = imag(getdata(f1{k}));
     end

@@ -137,7 +137,7 @@ for k = 1 : length(scales)
     Ys = Ys/spacing(2);
     Zs = Zs/spacing(3);
     
-    Rs = sqrt(Ys.*Ys + Xs.*Xs + Zs.*Zs) + eps;
+    Rs = sqrt(Xs.*Xs + Ys.*Ys + Zs.*Zs) + eps;
     
     Xh = Xs./Rs;   % h for hat
     Yh = Ys./Rs;
@@ -147,16 +147,16 @@ for k = 1 : length(scales)
     Fi0 = bplognorm(frequencySize, u0, B, spacing);
     
     % Order 1
-    Fi1{1} = Fi0.*Yh;
-    Fi1{2} = Fi0.*Xh;
+    Fi1{1} = Fi0.*Xh;
+    Fi1{2} = Fi0.*Yh;
     Fi1{3} = Fi0.*Zh;
     
     % Order 2
-    Fi2{1}  = Fi0.*Yh.*Yh;
-    Fi2{2}  = Fi0.*Yh.*Xh;
-    Fi2{3}  = Fi0.*Yh.*Zh;
-    Fi2{4}  = Fi0.*Xh.*Xh;
-    Fi2{5}  = Fi0.*Xh.*Zh;
+    Fi2{1}  = Fi0.*Xh.*Xh;
+    Fi2{2}  = Fi0.*Xh.*Yh;
+    Fi2{3}  = Fi0.*Xh.*Zh;
+    Fi2{4}  = Fi0.*Yh.*Yh;
+    Fi2{5}  = Fi0.*Yh.*Zh;
     Fi2{6}  = Fi0.*Zh.*Zh;
     
     % Order 0
@@ -183,7 +183,7 @@ for k = 1 : length(scales)
     end
     fprintf('\n\n')
     
-    f0 = getdata(f0);
+    f0 = real(getdata(f0));
     for k = 1: length(Fi1)
         f1{k} = imag(getdata(f1{k}));
     end
